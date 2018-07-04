@@ -1,0 +1,1 @@
+web: gunicorn jsabrandeis:app --log-file=-
