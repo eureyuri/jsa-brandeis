@@ -16,3 +16,4 @@ If there's a problem, force push: `git push -f heroku master`
 * Email
 * Login system
 * DB
+* Update python runtime
