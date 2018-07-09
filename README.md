@@ -1,6 +1,10 @@
 # jsa-brandeis
 Website for Brandeis JSA
 
+## Note to self
+push to branch, merge, change to master and pull, push to heroku `git push heroku master` <br />
+If there's a problem, force push: `git push -f heroku master`
+
 ## Instructions
 1. Clone this repo
 2. Create your own branch
@@ -12,3 +16,4 @@ Website for Brandeis JSA
 * Email
 * Login system
 * DB
+* Update python runtime
