@@ -3,3 +3,5 @@ venv
 .env
 staticfiles
 .envtemplates
+client_secret.json
+.credentials
