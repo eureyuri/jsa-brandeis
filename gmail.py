@@ -65,44 +65,42 @@ def delete_client_secret():
         # Debug later when we have time
         f.truncate()
 
+    if PROD:
+        with open('new.json', 'w') as f:
+            pass
+
 
 def get_credentials():
     build_client_secret()
 
-    # Get absolute path of current directory
-    script_dir = os.path.abspath(os.path.dirname(__file__))
-    credential_dir = os.path.join(script_dir, ".credentials")
+    if not PROD:
+        # Get absolute path of current directory
+        script_dir = os.path.abspath(os.path.dirname(__file__))
+        credential_dir = os.path.join(script_dir, ".credentials")
 
-    print("============")
-    print("Created directory: " + credential_dir)
-    print("============")
-    sys.stdout.flush()
+        if not os.path.exists(credential_dir):
+            os.makedirs(credential_dir)
 
-    if not os.path.exists(credential_dir):
-        os.makedirs(credential_dir)
-        print("============")
-        print("Path doesnt exist: " + credential_dir)
-        print("============")
-        sys.stdout.flush()
+        credential_path = os.path.join(credential_dir, 'gmail-python-email-send.json')
 
-    credential_path = os.path.join(credential_dir, 'gmail-python-email-send.json')
+        store = oauth2client.file.Storage(credential_path)
+        credentials = store.get()
 
-    store = oauth2client.file.Storage(credential_path)
-    credentials = store.get()
-
-    print("============")
-    print("Credential path: " + credential_path)
-    print("Store: " + store)
-    print("credentials: " + credentials)
-    print("============")
-    sys.stdout.flush()
-
-    if not credentials or credentials.invalid:
+        if not credentials or credentials.invalid:
+            flow = oauth2client.client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
+            flow.user_agent = APPLICATION_NAME
+            flags = argparse.ArgumentParser(parents=[oauth2client.tools.argparser]).parse_args()
+            credentials = oauth2client.tools.run_flow(flow, store, flags)
+            print("Storing credentials to " + credential_path)
+    else:
         flow = oauth2client.client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
         flow.user_agent = APPLICATION_NAME
         flags = argparse.ArgumentParser(parents=[oauth2client.tools.argparser]).parse_args()
-        credentials = oauth2client.tools.run_flow(flow, store, flags)
-        print("Storing credentials to " + credential_path)
+        credentials = oauth2client.tools.run_flow(flow, 'new.json', flags)
+        print("============")
+        print("credentials: " + credentials)
+        print("============")
+        sys.stdout.flush()
 
     return credentials
 
