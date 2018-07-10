@@ -11,42 +11,61 @@ import argparse
 import json
 from dotenv import load_dotenv
 from pathlib import Path
+import sys
 
 
 SCOPES = 'https://www.googleapis.com/auth/gmail.send'
-# CLIENT_SECRET_FILE = 'client_secret.json'
-CLIENT_SECRET_FILE = 'client_secret_empty.json'
-# CLIENT_SECRET_FILE = os.environ.get("CLIENT_SECRET_FILE")
+
+PROD = os.environ.get('PROD', False)
+if PROD:
+    print("HERE")
+    CLIENT_SECRET_FILE = os.environ.get("CLIENT_SECRET_FILE")
+else:
+    CLIENT_SECRET_FILE = 'client_secret_empty.json'
+
 APPLICATION_NAME = 'JSA Brandeis'
 MAIL_FROM = "eureynoguchi@gmail.com"
 MAIL_TO = "eurey@brandeis.edu"
 
 
 def build_client_secret():
-    env_path = Path('.') / '.env'
-    load_dotenv(dotenv_path=env_path)
+    print("============")
+    print(PROD)
+    print("============")
+    sys.stdout.flush()
+    if not PROD:
+        env_path = Path('.') / '.env'
+        load_dotenv(dotenv_path=env_path)
 
     with open(CLIENT_SECRET_FILE, 'r+') as f:
         data = json.load(f)
-        # data['web']['client_id'] = os.environ.get("CLIENT_ID")
-        # data['web']['client_secret'] = os.environ.get("CLIENT_SECRET")
-        data['web']['client_id'] = os.getenv("CLIENT_ID")
-        data['web']['client_secret'] = os.getenv("CLIENT_SECRET")
+
+        if PROD:
+            data['web']['client_id'] = os.environ.get("CLIENT_ID")
+            data['web']['client_secret'] = os.environ.get("CLIENT_SECRET")
+        else:
+            data['web']['client_id'] = os.getenv("CLIENT_ID")
+            data['web']['client_secret'] = os.getenv("CLIENT_SECRET")
         # Reset file position to 0
         f.seek(0)
         json.dump(data, f)
 
 
 def delete_client_secret():
-    env_path = Path('.') / '.env'
-    load_dotenv(dotenv_path=env_path)
+    if not PROD:
+        env_path = Path('.') / '.env'
+        load_dotenv(dotenv_path=env_path)
 
     with open(CLIENT_SECRET_FILE, 'r+') as f:
         data = json.load(f)
-        # data['web']['client_id'] = os.environ.get("CLIENT_ID")
-        # data['web']['client_secret'] = os.environ.get("CLIENT_SECRET")
-        data['web']['client_id'] = ''
-        data['web']['client_secret'] = ''
+
+        if PROD:
+            data['web']['client_id'] = ''
+            data['web']['client_secret'] = ''
+        else:
+            data['web']['client_id'] = ''
+            data['web']['client_secret'] = ''
+
         # Reset file position to 0
         f.seek(0)
         json.dump(data, f)
