@@ -93,6 +93,9 @@ def get_credentials():
             credentials = oauth2client.tools.run_flow(flow, store, flags)
             print("Storing credentials to " + credential_path)
     else:
+        print("============")
+        print("HERE")
+        print("============")
         flow = oauth2client.client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
         flow.user_agent = APPLICATION_NAME
         flags = argparse.ArgumentParser(parents=[oauth2client.tools.argparser]).parse_args()
