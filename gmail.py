@@ -26,6 +26,7 @@ MAIL_TO = "eurey@brandeis.edu"
 
 def build_client_secret():
     if not PROD:
+        # https://github.com/theskumar/python-dotenv#installation
         env_path = Path('.') / '.env'
         load_dotenv(dotenv_path=env_path)
 
