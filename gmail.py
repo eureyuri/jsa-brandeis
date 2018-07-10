@@ -65,9 +65,9 @@ def delete_client_secret():
         # Debug later when we have time
         f.truncate()
 
-    if PROD:
-        with open('new.json', 'w') as f:
-            pass
+    # if PROD:
+    #     with open('new.json', 'w') as f:
+    #         pass
 
 
 def get_credentials():
@@ -92,27 +92,18 @@ def get_credentials():
             flags = argparse.ArgumentParser(parents=[oauth2client.tools.argparser]).parse_args()
             credentials = oauth2client.tools.run_flow(flow, store, flags)
             print("Storing credentials to " + credential_path)
-    else:
-        print("============")
-        print("HERE")
-        print("============")
-        flow = oauth2client.client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
-        print("============")
-        print("HERE1")
-        print("============")
-        flow.user_agent = APPLICATION_NAME
-        print("============")
-        print("HERE2")
-        print("============")
-        flags = argparse.ArgumentParser(parents=[oauth2client.tools.argparser]).parse_args()
-        print("============")
-        print("HERE3")
-        print("============")
-        credentials = oauth2client.tools.run_flow(flow, 'new.json', flags)
-        print("============")
-        print("credentials: " + credentials)
-        print("============")
-        sys.stdout.flush()
+    # else:
+    #     flow = oauth2client.client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
+    #     flow.user_agent = APPLICATION_NAME
+    #     flags = argparse.ArgumentParser(parents=[oauth2client.tools.argparser]).parse_args()
+    #     print("============")
+    #     print("HERE3")
+    #     print("============")
+    #     credentials = oauth2client.tools.run_flow(flow, 'new.json', flags)
+    #     print("============")
+    #     print("credentials: " + credentials)
+    #     print("============")
+    #     sys.stdout.flush()
 
     return credentials
 
