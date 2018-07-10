@@ -25,10 +25,6 @@ MAIL_TO = "eurey@brandeis.edu"
 
 
 def build_client_secret():
-    print("============")
-    print(PROD)
-    print("============")
-    sys.stdout.flush()
     if not PROD:
         env_path = Path('.') / '.env'
         load_dotenv(dotenv_path=env_path)
@@ -77,13 +73,29 @@ def get_credentials():
     script_dir = os.path.abspath(os.path.dirname(__file__))
     credential_dir = os.path.join(script_dir, ".credentials")
 
+    print("============")
+    print("Created directory: " + credential_dir)
+    print("============")
+    sys.stdout.flush()
+
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
+        print("============")
+        print("Path doesnt exist: " + credential_dir)
+        print("============")
+        sys.stdout.flush()
 
     credential_path = os.path.join(credential_dir, 'gmail-python-email-send.json')
 
     store = oauth2client.file.Storage(credential_path)
     credentials = store.get()
+
+    print("============")
+    print("Credential path: " + credential_path)
+    print("Store: " + store)
+    print("credentials: " + credentials)
+    print("============")
+    sys.stdout.flush()
 
     if not credentials or credentials.invalid:
         flow = oauth2client.client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
