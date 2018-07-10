@@ -17,12 +17,8 @@ import sys
 SCOPES = 'https://www.googleapis.com/auth/gmail.send'
 
 PROD = os.environ.get('PROD', False)
-if PROD:
-    print("HERE")
-    CLIENT_SECRET_FILE = os.environ.get("CLIENT_SECRET_FILE")
-else:
-    CLIENT_SECRET_FILE = 'client_secret_empty.json'
 
+CLIENT_SECRET_FILE = 'client_secret_empty.json'
 APPLICATION_NAME = 'JSA Brandeis'
 MAIL_FROM = "eureynoguchi@gmail.com"
 MAIL_TO = "eurey@brandeis.edu"
