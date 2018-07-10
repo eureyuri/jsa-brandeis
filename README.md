@@ -3,7 +3,8 @@ Website for Brandeis JSA
 
 ## Note to self
 push to branch, merge, change to master and pull, push to heroku `git push heroku master` <br />
-If there's a problem, force push: `git push -f heroku master`
+If there's a problem, force push: `git push -f heroku master`<br />
+Possibly change gmail to [SendGrid](https://elements.heroku.com/addons/sendgrid): read [this](https://sendgrid.kke.co.jp/blog/?p=1070)
 
 ## Instructions
 1. Clone this repo
