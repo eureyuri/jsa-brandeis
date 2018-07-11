@@ -6,3 +6,4 @@ staticfiles
 client_secret.json
 .credentialssendgrid.env
 .credentials
+.idea
