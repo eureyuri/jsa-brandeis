@@ -4,6 +4,7 @@ Website for Brandeis JSA
 ## Note to self
 * Push to branch, merge, change to master and pull, push to heroku <br />
 * If there's a problem, force push: `git push -f heroku master`<br />
+* Pull from master before you start working!
 
 ## Instructions
 1. Clone this repo
@@ -14,6 +15,7 @@ Website for Brandeis JSA
 6. After running your code and checking that it works locally, deploy to [git](https://git-scm.com/docs)
 7. If there are no conflicts, you can just merge to master by yourself
 8. Deploy to heroku with `git push heroku master`
+9. Pull from master before you start working everytime!!
 
 ## TODO
 * Login system
