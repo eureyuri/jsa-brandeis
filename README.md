@@ -22,3 +22,4 @@ Website for Brandeis JSA
 * DB
 * Update information
 * Buy domain
+* Google maps at the bottom not working currently 
