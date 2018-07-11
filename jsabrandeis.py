@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request
 from gmail import send_message
+from sendGrid import send
 
 
 app = Flask(__name__)
@@ -23,7 +24,8 @@ def contact():
     subject = "JSA - Contact"
     message = "Name: " + str(request.form["name"]) + "\nEmail: " + str(request.form["email"]) \
                    + "\nComment: " + (request.form["comment"])
-    send_message(subject, message)
+    # send_message(subject, message)
+    send()
 
     return render_template("index.html")
 

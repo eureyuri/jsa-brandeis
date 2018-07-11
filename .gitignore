@@ -4,4 +4,5 @@ venv
 staticfiles
 .envtemplates
 client_secret.json
+.credentialssendgrid.env
 .credentials
