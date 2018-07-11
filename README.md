@@ -2,19 +2,21 @@
 Website for Brandeis JSA
 
 ## Note to self
-push to branch, merge, change to master and pull, push to heroku `git push heroku master` <br />
-If there's a problem, force push: `git push -f heroku master`<br />
-Possibly change gmail to [SendGrid](https://elements.heroku.com/addons/sendgrid): read [this](https://sendgrid.kke.co.jp/blog/?p=1070)
+* Push to branch, merge, change to master and pull, push to heroku <br />
+* If there's a problem, force push: `git push -f heroku master`<br />
 
 ## Instructions
 1. Clone this repo
 2. Create your own branch
 3. Download [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
-3. Connect to heroku using `heroku git:remote -a jsa-brandeis` or `git remote add heroku git@heroku.com:project.git`
-4. 
+4. Connect to heroku using `heroku git:remote -a jsa-brandeis` or `git remote add heroku git@heroku.com:project.git` (Ask for username and password)
+5. Run locally with `python3 jsabrandeis.py` (Ask for credentials if you need to test the forms or check heroku and create your own .env file) Also install packages with `pip install` if you need to.
+6. After running your code and checking that it works locally, deploy to [git](https://git-scm.com/docs)
+7. If there are no conflicts, you can just merge to master by yourself
+8. Deploy to heroku with `git push heroku master`
 
 ## TODO
-* Email
 * Login system
 * DB
-* Update python runtime
+* Update information
+* Buy domain
