@@ -1,6 +1,4 @@
-import os
 from flask import Flask, render_template, request
-from gmail import send_message
 from sendGrid import send
 
 
@@ -24,8 +22,7 @@ def contact():
     subject = "JSA - Contact"
     message = "Name: " + str(request.form["name"]) + "\nEmail: " + str(request.form["email"]) \
                    + "\nComment: " + (request.form["comment"])
-    # send_message(subject, message)
-    send()
+    send(subject, message)
 
     return render_template("index.html")
 
@@ -50,7 +47,7 @@ def volunteer():
     subject = "JSA - Volunteer"
     message = "Name: " + str(request.form["name"]) + "\nEmail: " + str(request.form["email"]) \
               + "\nComment: " + (request.form["comment"])
-    send_message(subject, message)
+    send(subject, message)
 
     return render_template("involve.html")
 
