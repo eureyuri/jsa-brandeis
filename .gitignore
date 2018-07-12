@@ -4,3 +4,4 @@ venv
 staticfiles
 .envtemplates
 .idea
+.credentials
