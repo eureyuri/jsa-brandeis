@@ -1,10 +1,19 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 from sendGrid import send
-from flask_login import login_manager
+from flask_login import LoginManager, login_user
+from flask_sqlalchemy import SQLAlchemy
+
+
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_pyfile('flask.cfg')
+
+db = SQLAlchemy(app)
+
 from user import User
 
-
-app = Flask(__name__)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'users.login'
 
 
 @app.errorhandler(404)
@@ -59,33 +68,34 @@ def outside_brandeis():
     return render_template("outsidebrandeis.html")
 
 
-# @app.route('/login', methods=["GET", "POST"])
-# def login():
-#     """For GET requests, display the login form.
-#         For POSTS, login the current user by processing the form.
-#
-#         """
-#     form = LoginForm()
-#     if form.validate_on_submit():
-#         user = User.query.get(form.email.data)
-#         if user:
-#             if bcrypt.check_password_hash(user.password, form.password.data):
-#                 user.authenticated = True
-#                 db.session.add(user)
-#                 db.session.commit()
-#                 login_user(user, remember=True)
-#                 return redirect(url_for("bull.reports"))
-#     return render_template("login.html", form=form)
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    if request.method == 'GET':
+        return render_template("login.html")
+    else:
+        email = str(request.form['email'])
+        password = str(request.form['pwd'])
+        user = User.query.filter_by(email=email).first()
+
+        if user is not None and user.is_correct_password(password):
+            user.authenticated = True
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+            flash('Thanks for logging in, {}'.format(user.email))
+            return render_template("involve.html")
+        else:
+            flash('ERROR! Incorrect login credentials.', 'error')
+    return render_template("login.html")
 
 
 @login_manager.user_loader
-def user_loader(user_id):
-    """Given *user_id*, return the associated User object.
-
-    :param unicode user_id: user_id (email) user to retrieve
-
+def load_user(user_id):
     """
-    return User.query.get(user_id)
+    Given *user_id*, return the associated User object.
+    :param unicode user_id: user_id (email) user to retrieve
+    """
+    return User.query.filter(User.id == int(user_id)).first()
 
 
 if __name__ == '__main__':
