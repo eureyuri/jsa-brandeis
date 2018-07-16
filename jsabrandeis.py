@@ -68,41 +68,30 @@ def outside_brandeis():
     return render_template("outsidebrandeis.html")
 
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route('/login', methods=["GET"])
 def login():
-    if request.method == 'GET':
-        return render_template("login.html")
-    else:
-        print("HELLO")
-        email = str(request.form['email'])
-        password = str(request.form['password'])
-        print(email)
-        print(password)
-        return render_template("involve.html")
+    return render_template("login.html")
 
 
 @app.route('/login', methods=['POST'])
 def logged_in():
-    print("HERE")
     email = str(request.form['email'])
-    password = str(request.form['pwd'])
-    # user1 = user.User.query.filter_by(email=email).first()
-    print(email)
-    print(password)
-    return render_template("involve.html")
+    password = str(request.form['password'])
 
-    # if user1 is not None and user1.is_correct_password(password):
-    #     print("HERE1")
-    #     user1.authenticated = True
-    #     db.session.add(user)
-    #     db.session.commit()
-    #     login_user(user1)
-    #     flash('Thanks for logging in, {}'.format(user1.email))
-    #     return render_template("involve.html")
-    # else:
-    #     print("HERE2")
-    #     flash('ERROR! Incorrect login credentials.', 'error')
-    #     return render_template("index.html")
+    user_match_db = model.User.query.filter_by(email=email).first()
+
+    if user_match_db is not None and user_match_db.is_correct_password(password):
+        print("HERE1")
+        user_match_db.authenticated = True
+        # db.session.add(user_match_db)
+        # db.session.commit()
+        # login_user(user_match_db)
+        # flash('Thanks for logging in, {}'.format(user_match_db.email))
+        return render_template("involve.html")
+    else:
+        print("HERE2")
+        # flash('ERROR! Incorrect login credentials.', 'error')
+        return render_template("index.html")
 
 
 @login_manager.user_loader
