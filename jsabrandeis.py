@@ -9,7 +9,7 @@ app.config.from_pyfile('flask.cfg')
 
 db = SQLAlchemy(app)
 
-from user import User
+import model
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -73,20 +73,36 @@ def login():
     if request.method == 'GET':
         return render_template("login.html")
     else:
+        print("HELLO")
         email = str(request.form['email'])
-        password = str(request.form['pwd'])
-        user = User.query.filter_by(email=email).first()
+        password = str(request.form['password'])
+        print(email)
+        print(password)
+        return render_template("involve.html")
 
-        if user is not None and user.is_correct_password(password):
-            user.authenticated = True
-            db.session.add(user)
-            db.session.commit()
-            login_user(user)
-            flash('Thanks for logging in, {}'.format(user.email))
-            return render_template("involve.html")
-        else:
-            flash('ERROR! Incorrect login credentials.', 'error')
-    return render_template("login.html")
+
+@app.route('/login', methods=['POST'])
+def logged_in():
+    print("HERE")
+    email = str(request.form['email'])
+    password = str(request.form['pwd'])
+    # user1 = user.User.query.filter_by(email=email).first()
+    print(email)
+    print(password)
+    return render_template("involve.html")
+
+    # if user1 is not None and user1.is_correct_password(password):
+    #     print("HERE1")
+    #     user1.authenticated = True
+    #     db.session.add(user)
+    #     db.session.commit()
+    #     login_user(user1)
+    #     flash('Thanks for logging in, {}'.format(user1.email))
+    #     return render_template("involve.html")
+    # else:
+    #     print("HERE2")
+    #     flash('ERROR! Incorrect login credentials.', 'error')
+    #     return render_template("index.html")
 
 
 @login_manager.user_loader
@@ -95,7 +111,7 @@ def load_user(user_id):
     Given *user_id*, return the associated User object.
     :param unicode user_id: user_id (email) user to retrieve
     """
-    return User.query.filter(User.id == int(user_id)).first()
+    return model.User.query.filter(model.User.id == int(user_id)).first()
 
 
 if __name__ == '__main__':
