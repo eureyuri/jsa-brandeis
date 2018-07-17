@@ -15,11 +15,11 @@ Website for Brandeis JSA
 6. After running your code and checking that it works locally, deploy to [git](https://git-scm.com/docs)
 7. If there are no conflicts, you can just merge to master by yourself
 8. Deploy to heroku with `git push heroku master`
-9. Pull from master before you start working everytime!!
-
-## TODO
-* Login system
-* DB
-* Update information
-* Buy domain
-* Google maps at the bottom not working currently 
+9. Pull from master before you start working everytime!! <br />
+* Creating the DB
+1. Download [POSTGRESQL](https://www.postgresql.org/)
+2. Run this command: `export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"`
+3. Run `psql` to check that you are in psql shell
+4. To create DB locally: `createdb jsabrandeis_db`
+- Note: `\l` to list DBs `\d` to display tables
+5. Run `db_create.py`
