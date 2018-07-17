@@ -21,5 +21,5 @@ Website for Brandeis JSA
 2. Run this command: `export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"`
 3. Run `psql` to check that you are in psql shell
 4. To create DB locally: `createdb jsabrandeis_db`
-- Note: `\l` to list DBs `\d` to display tables
+- Note: `\c jsabrandeis_db` to change DB, `\l` to list DBs, `\d` to display tables
 5. Run `db_create.py`
