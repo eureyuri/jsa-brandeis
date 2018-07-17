@@ -1,5 +1,6 @@
 from sqlalchemy.ext.hybrid import hybrid_method
 from jsabrandeis import db
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 class User(db.Model):
@@ -7,13 +8,12 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String, unique=True, nullable=False)
-    # TODO: Hash
     password = db.Column(db.String, nullable=False)
     authenticated = db.Column(db.Boolean, default=False)
 
     def __init__(self, email, password):
         self.email = email
-        self.password = password
+        self.password = generate_password_hash(password)
         self.authenticated = False
 
     def get_id(self):
@@ -28,7 +28,7 @@ class User(db.Model):
 
     @hybrid_method
     def is_correct_password(self, password):
-        return self.password == password
+        return check_password_hash(self.password, password)
 
     @property
     def is_authenticated(self):
