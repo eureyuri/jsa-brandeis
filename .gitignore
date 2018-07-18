@@ -7,4 +7,3 @@ client_secret.json
 .credentialssendgrid.env
 .credentials
 .idea/workspace.xml
-instance/flask.cfg

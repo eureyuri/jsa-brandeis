@@ -1,11 +1,19 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect, url_for
 from sendGrid import send
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, login_required
 from flask_sqlalchemy import SQLAlchemy
+import os
+from dotenv import load_dotenv
 
 
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+
+# TODO: Check on heroku if this works
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_pyfile('flask.cfg')
+app.secret_key = os.environ.get('FLASK_KEY')
 
 db = SQLAlchemy(app)
 
@@ -77,21 +85,24 @@ def login():
 def logged_in():
     email = str(request.form['email'])
     password = str(request.form['password'])
-
     user_match_db = model.User.query.filter_by(email=email).first()
 
     if user_match_db is not None and user_match_db.is_correct_password(password):
-        print("HERE1")
         user_match_db.authenticated = True
         # db.session.add(user_match_db)
         # db.session.commit()
         # login_user(user_match_db)
         # flash('Thanks for logging in, {}'.format(user_match_db.email))
-        return render_template("involve.html")
+        return redirect(url_for('admin'))
     else:
-        print("HERE2")
-        # flash('ERROR! Incorrect login credentials.', 'error')
-        return render_template("index.html")
+        flash('ERROR! Incorrect login credentials!')
+        return render_template("login.html")
+
+
+@app.route('/admin', methods=['GET'])
+# @login_required
+def admin():
+    return render_template("admin.html")
 
 
 @login_manager.user_loader
