@@ -108,7 +108,6 @@ def logout():
 
 
 @app.route('/admin', methods=['GET'])
-@login_required
 def admin():
     return render_template("admin.html")
 
