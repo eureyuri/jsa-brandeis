@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from sendGrid import send
-from flask_login import LoginManager, login_user, login_required
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 import os
 from dotenv import load_dotenv
@@ -21,7 +21,7 @@ import model
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'users.login'
+login_manager.login_view = 'login'
 
 
 @app.errorhandler(404)
@@ -89,29 +89,33 @@ def logged_in():
 
     if user_match_db is not None and user_match_db.is_correct_password(password):
         user_match_db.authenticated = True
-        # db.session.add(user_match_db)
-        # db.session.commit()
-        # login_user(user_match_db)
-        # flash('Thanks for logging in, {}'.format(user_match_db.email))
+        login_user(user_match_db)
+        # TODO: Implement remember button?
+        # login_user(user_match_db, remember=True)
         return redirect(url_for('admin'))
     else:
         flash('ERROR! Incorrect login credentials!')
         return render_template("login.html")
 
 
+@app.route("/logout", methods=["GET"])
+@login_required
+def logout():
+    user = current_user
+    user.authenticated = False
+    logout_user()
+    return redirect(url_for('index'))
+
+
 @app.route('/admin', methods=['GET'])
-# @login_required
+@login_required
 def admin():
     return render_template("admin.html")
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    """
-    Given *user_id*, return the associated User object.
-    :param unicode user_id: user_id (email) user to retrieve
-    """
-    return model.User.query.filter(model.User.id == int(user_id)).first()
+    return model.User.query.filter(model.User.email == user_id).first()
 
 
 if __name__ == '__main__':

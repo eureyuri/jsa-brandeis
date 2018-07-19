@@ -1,9 +1,10 @@
 from sqlalchemy.ext.hybrid import hybrid_method
 from jsabrandeis import db
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_login import UserMixin
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -33,6 +34,9 @@ class User(db.Model):
     @property
     def is_authenticated(self):
         return self.authenticated
+
+    def is_anonymous(self):
+        return False
 
     def __repr__(self):
         return '<User {0}>'.format(self.email)
