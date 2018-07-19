@@ -23,3 +23,5 @@ Website for Brandeis JSA
 4. To create DB locally: `createdb jsabrandeis_db`
 - Note: `\c jsabrandeis_db` to change DB, `\l` to list DBs, `\d` to display tables
 5. Run `db_create.py`
+- Self note: `heroku run db_create.py` to create the admin user (only when table doesn't exist)
+6. To query DB on Heroku, `heroku pg:psql`
