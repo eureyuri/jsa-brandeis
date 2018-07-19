@@ -10,6 +10,8 @@ load_dotenv(dotenv_path)
 db.create_all()
 
 admin = User(email=os.environ.get('ADMIN_EMAIL'), password=generate_password_hash(os.environ.get('ADMIN_PASSWORD')))
+print(os.environ.get('ADMIN_EMAIL'))
+print(os.environ.get('ADMIN_PASSWORD'))
 
 db.session.add(admin)
 db.session.commit()
