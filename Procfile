@@ -1,1 +1,1 @@
-web: python jsabrandeis.py
+web: gunicorn jsabrandeis:app --log-file=-
