@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, g
 from sendGrid import send
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
@@ -100,24 +100,35 @@ def logged_in():
 
 
 @app.route("/logout", methods=["GET"])
-@login_required
+# @login_required
 def logout():
-    user = current_user
-    user.authenticated = False
-    # logout_user()
-    session.pop('username', None)
-    return redirect(url_for('index'))
+    if g.user:
+        user = current_user
+        user.authenticated = False
+        # logout_user()
+        session.pop('username', None)
+        return redirect(url_for('index'))
+    return redirect(url_for(login))
 
 
 @app.route('/admin', methods=['GET'])
-@login_required
+# @login_required
 def admin():
-    return render_template("admin.html")
+    if g.user:
+        return render_template("admin.html")
+    return redirect(url_for(login))
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return model.User.query.filter(model.User.email == user_id).first()
+
+
+@app.before_request
+def before_request():
+    g.user = None
+    if 'username' in session:
+        g.user = session['username']
 
 
 if __name__ == '__main__':
