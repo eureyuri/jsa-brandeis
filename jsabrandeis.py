@@ -108,7 +108,7 @@ def logout():
         # logout_user()
         session.pop('username', None)
         return redirect(url_for('index'))
-    return redirect(url_for(login))
+    return redirect(url_for('login'))
 
 
 @app.route('/admin', methods=['GET'])
@@ -116,7 +116,7 @@ def logout():
 def admin():
     if g.user:
         return render_template("admin.html")
-    return redirect(url_for(login))
+    return redirect(url_for('login'))
 
 
 @login_manager.user_loader
