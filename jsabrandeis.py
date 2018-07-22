@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 from sendGrid import send
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
@@ -89,7 +89,8 @@ def logged_in():
 
     if user_match_db is not None and user_match_db.is_correct_password(password):
         user_match_db.authenticated = True
-        login_user(user_match_db)
+        # login_user(user_match_db)
+        session['username'] = email
         # TODO: Implement remember button?
         # login_user(user_match_db, remember=True)
         return redirect(url_for('admin'))
@@ -103,7 +104,8 @@ def logged_in():
 def logout():
     user = current_user
     user.authenticated = False
-    logout_user()
+    # logout_user()
+    session.pop('username', None)
     return redirect(url_for('index'))
 
 
