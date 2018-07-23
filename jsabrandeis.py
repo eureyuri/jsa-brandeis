@@ -4,18 +4,11 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from flask_sqlalchemy import SQLAlchemy
 import os
 from dotenv import load_dotenv
-
+from app_settings import app, db
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-
-# TODO: Check on heroku if this works
-app = Flask(__name__, instance_relative_config=True)
-app.config.from_pyfile('flask.cfg')
-app.secret_key = os.environ.get('FLASK_KEY')
-
-db = SQLAlchemy(app)
 
 import model
 
@@ -129,6 +122,43 @@ def before_request():
     g.user = None
     if 'username' in session:
         g.user = session['username']
+
+
+@app.route('/add', methods=['GET'])
+def add_display_user():
+    if g.user:
+        users = db.session.query(model.User.email).all()
+        users = [user[0] for user in users]
+        admin = False
+        if g.user == 'admin@jsa':
+            admin = True
+        return render_template("add_user.html", users=users, admin=admin)
+    return redirect(url_for('login'))
+
+
+@app.route('/add', methods=['POST'])
+def add_user():
+    if g.user:
+        email = str(request.form['email'])
+        password = str(request.form['password'])
+        new_user = model.User(email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('add_display_user'))
+    return redirect(url_for('login'))
+
+
+@app.route('/delete', methods=['POST'])
+def delete_user():
+    if g.user:
+        if g.user == 'admin@jsa':
+            email = str(request.form['email'])
+            deleting_user = model.User.query.filter_by(email=email).first()
+            if deleting_user:
+                db.session.delete(deleting_user)
+                db.session.commit()
+        return redirect(url_for('add_display_user'))
+    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':

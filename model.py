@@ -1,5 +1,5 @@
 from sqlalchemy.ext.hybrid import hybrid_method
-from jsabrandeis import db
+from app_settings import db
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin
 
