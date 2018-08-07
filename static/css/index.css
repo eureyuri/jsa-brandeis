@@ -308,6 +308,15 @@ section.map {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); }
   #example2 { border: 4px #EC6865 solid; margin-right: 190px; margin-top: 80px;}
+  #map-responsive{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top:0;
+    left: 0;
+  }
 
 footer {
   padding: 25px 0;
