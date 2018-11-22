@@ -12,7 +12,7 @@ cycler==0.10.0
 decorator==4.2.1
 docopt==0.6.2
 entrypoints==0.2.3
-Flask==0.12.2
+Flask==1.0.2
 Flask-Login==0.4.1
 Flask-Mail==0.9.1
 Flask-SQLAlchemy==2.3.2
@@ -31,7 +31,7 @@ ipython-genutils==0.2.0
 ipywidgets==7.1.2
 itsdangerous==0.24
 jedi==0.11.1
-Jinja2==2.9.6
+Jinja2==2.10
 jsonschema==2.6.0
 jupyter==1.0.0
 jupyter-client==5.2.3
@@ -90,6 +90,6 @@ uritemplate==3.0.0
 urllib3==1.23
 wcwidth==0.1.7
 webencodings==0.5.1
-Werkzeug==0.12.2
+Werkzeug==0.14.1
 widgetsnbextension==3.1.4
 yarg==0.1.9
