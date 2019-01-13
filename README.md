@@ -1,5 +1,5 @@
 # jsa-brandeis
-Website for Brandeis JSA
+Website for [Brandeis JSA](http://jsabrandeis.com/)
 
 ## Note to self
 * Push to branch, merge, change to master and pull, push to heroku <br />
